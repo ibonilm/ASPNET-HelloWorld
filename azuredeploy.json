@@ -42,7 +42,7 @@
   },
   "variables": {
     "webSiteName": "[concat('webSite', uniqueString(resourceGroup().id))]",
-    "hostingPlanName": "[concat('webSite', uniqueString(resourceGroup().id))]"
+    "hostingPlanName": "[concat('plan', uniqueString(resourceGroup().id))]"
   },
   "resources": [
     {
@@ -76,7 +76,21 @@
       "properties": {
         "name": "[variables('webSiteName')]",
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]"
-      }
+      },
+      "resources": [
+        {
+          "apiVersion": "2015-04-01",
+          "name": "web",
+          "type": "sourcecontrols",
+          "dependsOn": [
+            "[concat('Microsoft.Web/Sites/', variables('webSiteName'))]"
+          ],
+          "properties": {
+            "RepoUrl": "[parameters('repoUrl')]",
+            "branch": "[parameters('branch')]"
+          }
+        }
+      ]
     },
     {
       "apiVersion": "2014-04-01",
@@ -294,21 +308,7 @@
       },
       "properties": {
         "applicationId": "[variables('webSiteName')]"
-      },
-      "resources": [
-        {
-          "apiVersion": "2015-04-01",
-          "name": "web",
-          "type": "sourcecontrols",
-          "dependsOn": [
-            "[concat('Microsoft.Web/Sites/', variables('webSiteName'))]"
-          ],
-          "properties": {
-            "RepoUrl": "[parameters('repoUrl')]",
-            "branch": "[parameters('branch')]"
-          }
-        }
-      ]
+      }
     }
   ]
 }

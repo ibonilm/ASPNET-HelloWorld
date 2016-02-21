@@ -32,12 +32,10 @@
       }
     },
     "repoUrl": {
-      "type": "string",
-      "defaultValue": "https://github.com/ibonilm/ASPNET-HelloWorld.git"
+      "type": "string"
     },
     "branch": {
-      "type": "string",
-      "defaultValue": "master"
+      "type": "string"
     }
   },
   "variables": {
@@ -87,7 +85,8 @@
           ],
           "properties": {
             "RepoUrl": "[parameters('repoUrl')]",
-            "branch": "[parameters('branch')]"
+            "branch": "[parameters('branch')]",
+            "IsManualIntegration": true
           }
         }
       ]
